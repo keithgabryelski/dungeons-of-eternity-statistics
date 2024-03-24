@@ -1,9 +1,6 @@
-library(dplyr)
-library(collapse)
-library(AppliedPredictiveModeling)
-library(caret)
-library(googlesheets4)
-rawreport <- read_sheet("https://docs.google.com/spreadsheets/d/15XGevBozTrsKYo2EGDgq5onnf2fHgTcJfXuA5vTeSnY/edit#gid=1163589623", "All Reports")
+source("./doe-gsheet.R")
+
+rawreport <- doe_gsheet.reports()
 rawreport <- replace_NA(rawreport, cols = c("attack power",
     "criticals",
     "undead damage",
