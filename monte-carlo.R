@@ -20,8 +20,8 @@ calculated_hits <- vector("list", length(calculated_scenarios));
 out <- vector("numeric", length(calculated_scenarios));
 
 NUM_ATTACKS_PER_DUNGEON <- 50;
-COLORS = rainbow(length(calculated_scenarios)*1.25);
-
+COLORS = c(palette(),palette(),palette(),palette());
+PCH = c(21,21,21,21,21,21,21,21,22,22,22,22,22,22,22,22,23,23,23,23,23,23,23,23,24,24,24,24,24,24,24,24);
 calc = function(hit) {
     out = NULL;
     for (n in 1:NUM_ATTACKS_PER_DUNGEON) {
@@ -32,7 +32,7 @@ calc = function(hit) {
 }
 
 
-par(oma = c(0, 0, 0, 0), mar = c(5, 5, 5, 35), cex=0.5)
+par(oma = c(5, 0, 0, 0), mar = c(5, 5, 5, 35), cex=0.5)
 options(device = "quartz")
 legend_titles <- c();
 for (i in 1:length(calculated_scenarios)) {
@@ -45,16 +45,17 @@ for (i in 1:length(calculated_scenarios)) {
     N_mean <- apply(out, 1, mean);
     if (i == 1) {
         plot(N_mean,
-             type="l",
+             type="b",
              ylim = c(0, 500),
              col = COLORS[i],
+             pch = PCH[i],
              main = "Monte Carlo Simulation",
-             sub = "Lovingly wrought at http://bit.ly/dungeons-of-eternity-statistics by Protagosus",
+             sub = "Lovingly wrought at https://github.com/keithgabryelski/dungeons-of-eternity-statistics by Protagosus",
              xlab = "MC Iteration",
              ylab = "Actual Damage"
         );
     } else {
-        lines(N_mean, lty = 1, col = COLORS[i]);
+        lines(N_mean, type="b", lty = 1, col = COLORS[i], pch = PCH[i]);
     }
 ##    N_quants <- apply(out, 1, function(x) quantile(x, c(0.1, 0.9)))
     #lines(N_quants[1,], lty = i, col = COLORS[i])
@@ -73,10 +74,11 @@ for (i in 1:length(calculated_scenarios)) {
 #lines(N_median, lty = 2, col = "green")
 
 legend("topleft",
-       inset = c(1.0, 0),
-       xpd = TRUE,
-       legend = legend_titles,
-       fill = COLORS
+   inset = c(1.0, 0),
+   xpd = TRUE,
+   legend = legend_titles,
+   pch = PCH,
+   pt.bg = COLORS
 )
 
 #title();
